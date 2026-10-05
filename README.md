@@ -8,6 +8,56 @@ Built and run for a real client (Ceshker Group, Texas) as a full-stack TypeScrip
 
 ▶️ **[Watch the full walkthrough video (MP4, 40 s)](assets/content-os-walkthrough.mp4)**
 
+▶️ **[Dashboard walkthrough, Sept 30 (MP4, 53 s)](docs/media/walkthrough-content-os.mp4)** · **[Short clip (MP4, 12 s)](docs/media/walkthrough-short.mp4)** · **[Earlier demo (MP4, 70 s)](docs/media/demo.mp4)**
+
+
+---
+
+## Ceshker Group postings: from a planning sheet to a daily feed
+
+Alongside the dashboard, I run the client's actual social calendar. The brief from the account owner was simple: **at least one Ceshker post every day, birthdays and anniversaries first, and nothing that needs him in the loop to go out.** This section shows the posts, the design system behind them and the approval loop that keeps the client in control without slowing the feed down.
+
+### Posts designed and shipped
+
+| | | |
+|---|---|---|
+| ![Black Sheep Convention, day 1](docs/media/posts/2026-09-25-black-sheep-day1.jpg) | ![Black Sheep Convention, day 2](docs/media/posts/2026-09-26-black-sheep-day2.jpg) | ![Poll: biggest obstacle to closing a wrap](docs/media/posts/2026-10-07-poll-wrap-obstacle.jpg) |
+| Event day 1 · Sept 25 | Event day 2 · Sept 26 | Poll · Oct 7 |
+| ![Poll: sellers who reject creative finance](docs/media/posts/2026-10-09-poll-creative-finance.jpg) | ![Poll: real estate superpower](docs/media/posts/2026-10-11-poll-superpower.jpg) | ![Free resource: Wrap FAQs](docs/media/posts/2026-10-12-wrap-faqs.jpg) |
+| Poll · Oct 9 | Poll · Oct 11 | Educational · Oct 12 |
+| ![Work anniversary, Samantha](docs/media/posts/2026-11-11-anniversary-samantha.jpg) | ![Birthday, T. Alan Ceshker](docs/media/posts/2026-12-01-birthday-alan.jpg) | ![Work anniversary, Maisie](docs/media/posts/2026-12-20-anniversary-maisie.jpg) |
+| Anniversary · Nov 11 | Birthday · Dec 1 | Anniversary · Dec 20 |
+
+Three visual systems, each matched to how the brand already looks on Instagram rather than invented from scratch:
+
+- **Event posts** use the brand kit: navy, gold, condensed uppercase type, the official logo and a Texas outline.
+- **Educational posts and polls** copy the dark navy-to-charcoal look of the client's own NFAMation posts: an orange pill label, a heavy white headline, lettered options and the website in the footer.
+- **Celebration posts** match the client's existing birthday and anniversary posts exactly: royal blue, confetti and ribbons, a huge white headline, the person's cut-out headshot. Headshots come from the company website, so a post is never blocked waiting for a photo.
+
+### How a post gets made
+
+1. **Plan.** The content calendar lives in a Google Sheet that the dashboard imports every 15 minutes. Birthdays and anniversaries come from a second sheet and are checked against the live Instagram feed first, because the team sometimes posts directly.
+2. **Design.** Two paths. Routine posts are autofilled from Canva brand templates by the dashboard (headline, date, category) and attached as *not approved*. Anything more bespoke is built through Canva's API: upload the headshot, remove its background, generate the layout from a written brief that encodes the house style, swap the real photo in, fix the text, export.
+3. **Approve.** The client gets one page with every pending post: graphic, caption, hashtags, date, platforms and a link to the editable design. Approve or request changes in one click. Decisions are stored in a shared database, so the page shows live status and I can read it back without a meeting.
+4. **Publish.** Approved posts are queued in Content OS for 10:00 AM Central and go to the Facebook Page and @ceshkergroup on Instagram together. Anything not approved stays paused.
+
+![Client approval page](docs/media/postings/approval-page.png)
+
+### Automation I added for this account
+
+- **Canva design generation through the Canva connector**, including background removal, brand-kit colours and fonts, and element-level edits (text, position, opacity) to fix what the generator gets wrong.
+- **A written house-style spec** per post type, so every new celebration or poll graphic comes out consistent without a template.
+- **A client approval page** (HTML plus a small shared database) that replaces email back-and-forth. The client can approve from his phone; the approval history is kept.
+- **Pause and resume per destination** in the dashboard, so a post can be held for Facebook, Instagram or both without deleting it.
+- **Drive and sheet audits** before drafting: prepared graphics in the client's Drive, unused questions in the owner's poll document, finished reels in the video library, and the live feed, so nothing is repeated and nothing ready is wasted.
+
+### Results
+
+- Posting restarted the day the daily-output instruction came in, with the first post live on both platforms at the scheduled minute.
+- A full week of October posts was drafted in one sitting from the client's own unused material (three finished reels, three polls, one resource post), with every graphic checked for spelling before it reached the client.
+- The three celebration posts for November and December were designed, scheduled and then paused pending approval, with a reversible hold rather than a deletion.
+
+
 ---
 
 ## The problem
