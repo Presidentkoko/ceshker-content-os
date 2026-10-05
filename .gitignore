@@ -1,0 +1,11 @@
+node_modules
+dist-web
+dist-server
+.env
+*.log
+# Raw sheet exports (large, and contain team photos). Only data/sheet_links.json is committed.
+data/content.xlsx
+data/xlsx/
+data/*.csv
+data/*.html
+data/*.cjs

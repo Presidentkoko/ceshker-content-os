@@ -1,0 +1,18 @@
+import sharp from 'sharp';
+const B='http://localhost:8080', PW=process.env.PW;
+const r=await fetch(B+'/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:PW+'-content.manager'})});
+const ck=r.headers.get('set-cookie').split(';')[0];
+const j=(m,u,b)=>fetch(B+'/api'+u,{method:m,headers:{cookie:ck,'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(async x=>({s:x.status,b:await x.json()}));
+const c=await j('POST','/content',{title:'Upload test',caption:'x',category:'General',content_type:'post',targets:[{platform:'instagram',placement:'feed'}]});
+const png=await sharp({create:{width:900,height:1400,channels:3,background:'#1f4fd1'}}).png().toBuffer();
+const up=await fetch(B+`/api/content/${c.b.id}/assets/upload`,{method:'POST',headers:{cookie:ck,'content-type':'image/png','x-filename':'test%20graphic.png','x-label':'Test','x-approved':'true'},body:png});
+const ub=await up.json(); console.log(up.status===201&&ub.stored?'PASS':'FAIL','upload real PNG', up.status, ub.mime, ub.size_bytes, 'approved(by content manager)=', ub.approved);
+const prev=await fetch(B+`/api/assets/${ub.id}/file`,{headers:{cookie:ck}}); console.log(prev.status===200&&prev.headers.get('content-type')==='image/png'?'PASS':'FAIL','preview for signed-in user');
+const anon=await fetch(B+`/api/assets/${ub.id}/file`); console.log(anon.status===401?'PASS':'FAIL','preview blocked when signed out');
+const fake=await fetch(B+`/api/content/${c.b.id}/assets/upload`,{method:'POST',headers:{cookie:ck,'content-type':'image/png','x-filename':'evil.png'},body:Buffer.from('<script>not an image</script>')});
+console.log(fake.status===400?'PASS':'FAIL','fake image rejected', fake.status, (await fake.json()).error);
+const tiny=await sharp({create:{width:100,height:100,channels:3,background:'#000'}}).jpeg().toBuffer();
+const t=await fetch(B+`/api/content/${c.b.id}/assets/upload`,{method:'POST',headers:{cookie:ck,'content-type':'image/jpeg','x-filename':'tiny.jpg'},body:tiny});
+console.log(t.status===400?'PASS':'FAIL','too-small image rejected', (await t.json()).error);
+const d=await j('GET',`/content/${c.b.id}`); console.log(!JSON.stringify(d.b).includes('"data"')?'PASS':'FAIL','record details do not include raw image bytes');
+await j('POST',`/content/${c.b.id}/archive`,{archived:true});

@@ -1,0 +1,10 @@
+node_modules
+dist-web
+dist-server
+.env
+*.log
+data/content.xlsx
+data/xlsx
+data/*.csv
+data/*.html
+data/*.cjs
